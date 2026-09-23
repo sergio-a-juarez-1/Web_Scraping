@@ -1,6 +1,6 @@
 # Evolutionary Data Engineering: From Structured Logic to Empirical Thesis Pipelines
 
-An academic and engineering timeline demonstrating the progressive evolution of automated web scraping architectures. This repository preserves the development lifecycle of a data-engineering framework across three distinct language domains (**Java**, **C**, and **Python**). The final Python implementation served as the core data engine for a Senior Honors Thesis at the University of Utah, harvesting, parsing, and structured-modeling an empirical sample of **over 112,173 crowdfunding projects**.
+An academic and engineering timeline demonstrating the progressive evolution of automated web scraping architectures. This repository preserves the development lifecycle of a data-engineering framework across three distinct language domains: **Java**, **C**, and **Python**. The final Python implementation served as the core data engine for a Senior Honors Thesis at the University of Utah, harvesting, parsing, and structured-modeling an empirical sample of **over 112,173 crowdfunding projects**.
 
 ---
 
