@@ -17,10 +17,12 @@ A robust, console-based Java application designed to scrape, extract, and locall
 
 The application runs a synchronized pipeline spanning validation, stream-reading, field slicing, and data writing:
 
-[ Interactive CLI ] ──> Input Validation Checks ──> [ Network HTML Stream Buffer ]│[ Local CSV File ] <── Console Diagnostic Mirror <── [ String Slicing Parser Engine ]
+[ Interactive CLI ] ──> Input Validation Checks ──> [ Network HTML Stream Buffer ]
+                                                                   │
+[ Local CSV File ] <── Console Diagnostic Mirror <── [ String Slicing Parser Engine ]
 
 1. **Validation Domain:** Evaluates game identification parameters (20001 ≤ ID ≤ 21230) and active keywords (e.g., `SHOT`).
-2. **Buffering Engine:** Opens a low-overhead `InputStream` to scan web metrics row by row, keeping memory allocations to a minimum.
+2. **Buffering Engine:** Opens a low-overhead, memory-safe `InputStream` utilizing try-with-resources to cleanly manage system sockets.
 3. **Extraction Slicer:** Uses positional character indexing metrics (`indexOf`, `substring`) to pull discrete target strings out of unstructured columns.
 
 ---
@@ -45,10 +47,26 @@ cd nhl-event-scraper
 javac EventScraper.java
 ```
 
-### Execution Run
-Start the application from the console:
+### Execution Run Safely on Your Machine
+To protect proprietary infrastructure and private API endpoints, the application fetches its scraping target from your operating system's environment variable (`SCRAPER_TARGET_URL`). 
 
+Set the environment variable in your active terminal session before running the compiled Java class:
+
+#### 💻 macOS / Linux
 ```bash
+export SCRAPER_TARGET_URL="https://your-private-data-provider.com"
+java EventScraper
+```
+
+#### 🪟 Windows (Command Prompt)
+```cmd
+set SCRAPER_TARGET_URL=https://your-private-data-provider.com
+java EventScraper
+```
+
+#### 🟦 Windows (PowerShell)
+```powershell
+$env:SCRAPER_TARGET_URL="https://your-private-data-provider.com"
 java EventScraper
 ```
 
@@ -64,15 +82,12 @@ TEAM,PLAYER_NUMBER,LAST_NAME,SHOT_TYPE,ZONE,DISTANCE
 
 ---
 
-## ⚙️ Configuration & URL Domains
+## ⚙️ Environment Configuration
 
-To safely run network scrapes, open the source file and navigate down to the `getNthEventByType` module. Update the unconfigured `urlText` string template variable to map to your chosen analytical sports network domain or private mock tracking server:
+To keep this codebase completely secure for public distribution, **never hardcode private URLs or domain structures inside the Java source files.** 
 
-```java
-// Locate this block in EventScraper.java and configure your domain layout
-String urlText = "http://your-analytical-domain.com" + gameNumber + ".html";
-```
+The application logic automatically maps request strings using the runtime property injection framework:
+* **Base URL Source:** `System.getenv("SCRAPER_TARGET_URL")`
+* **Dynamic Append Format:** `baseUrl + "?game=" + gameNumber`
 
----
-
-
+If the environment variable is left missing or blank, the execution execution flow will throw a explicit safety warning and safely abort network thread instantiation to prevent unexpected socket errors.
