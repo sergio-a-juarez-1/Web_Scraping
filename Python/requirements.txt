@@ -1,0 +1,12 @@
+# ==============================================================================
+# Production Dependency Tree for Kickstarter Crowdfunding Data Pipeline
+# ==============================================================================
+
+# Core HTTP library with safety handling patches
+requests==2.32.3
+
+# HTML/Markup processing tool tree
+beautifulsoup4==4.12.3
+
+# Underlying parsing parser for structural markup support
+soupsieve==2.6
