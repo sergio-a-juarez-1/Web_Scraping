@@ -38,13 +38,13 @@ Clone the repository and compile the source code file using any standard termina
 
 ```bash
 # Clone the repository
-git clone https://github.com
+git clone https://github.com/sergio-a-juarez-1/Web_Scraping.git
 
 # Navigate to the project folder
-cd nhl-event-scraper
+cd Java
 
 # Compile the Java application class
-javac EventScraper.java
+javac main.java
 ```
 
 ### Execution Run Safely on Your Machine
