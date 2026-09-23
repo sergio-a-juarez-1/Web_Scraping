@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
+// Global safety constraint to mitigate Denial of Service (DoS) risks
 #define MAX_EVENT_NUMBER 1000
 
 // Function Prototypes
@@ -54,7 +55,6 @@ int main(void) {
             
             if (strcmp(user_input, "SHOT") == 0) {
                 printf("It is a valid event type\n");
-                // Securely copy bounded string input
                 strncpy(event_type, user_input, sizeof(event_type) - 1);
                 event_type[sizeof(event_type) - 1] = '\0';
             } else {
@@ -76,7 +76,6 @@ int main(void) {
                     continue;
                 }
                 
-                // Enforce safety ceiling constraints to prevent DoS resource exhaustion
                 if (user_int > 0 && user_int <= MAX_EVENT_NUMBER) {
                     printf("It is a valid event number\n");
                     event_number = (int)user_int;
@@ -85,7 +84,6 @@ int main(void) {
                     continue;
                 }
                 
-                // Elevated allocation constraints to safely handle combined substring formatting
                 char mock_html[512];
                 char csv_record[512]; 
                 
@@ -114,13 +112,12 @@ void trim_newline(char *str) {
     }
 }
 
-// Bounded file formatting destination verification
 void create_data_file_name(int game_number, const char *event_type, char *filename_out, size_t max_len) {
     snprintf(filename_out, max_len, "%d_%s.csv", game_number, event_type);
 }
 
 int write_record_to_file(int game_number, const char *event_type, const char *record) {
-    char filename[128]; // Expanded buffer size for additional safety margin
+    char filename[128]; 
     create_data_file_name(game_number, event_type, filename, sizeof(filename));
     
     FILE *file = fopen(filename, "w");
@@ -154,7 +151,6 @@ int print_records_from_file(int game_number, const char *event_type) {
 }
 
 void get_nth_event_by_type(int n, const char *event_type, int game_number, char *html_out, size_t max_len) {
-    // SECURE FIX: snprintf completely truncates data safely if output exceeds memory limits
     snprintf(html_out, max_len, ">MTL #81 SURE_SHOT, HOME, 45 feet, sequence_%d_game_%d", n, game_number);
 }
 
@@ -173,15 +169,12 @@ void get_shot_data_from_event_html(const char *event_html, char *csv_out, size_t
         return;
     }
     
-    // Explicit length indicators inside formatting tokens strictly enforces memory boundaries
     int items = sscanf(start, ">%15s #%d %63[^,], %31[^,], %15s", 
                        team, &player_number, last_name, shot_type, length);
     
     if (items >= 5) {
         strncpy(zone, "ZONE", sizeof(zone) - 1);
         zone[sizeof(zone) - 1] = '\0';
-        
-        // SECURE FIX: Checked construction boundaries prevent local buffer overrides
         snprintf(csv_out, max_len, "%s,%d,%s,%s,%s,%s", team, player_number, last_name, shot_type, zone, length);
     } else {
         strncpy(csv_out, "Parsing failure: Data structural anomaly", max_len - 1);
