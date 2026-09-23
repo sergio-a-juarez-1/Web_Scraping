@@ -1,0 +1,11 @@
+# Block compiled application binaries
+EventScraper
+EventScraper.exe
+*.class
+
+# Block generated metrics data files
+*.csv
+
+# Block local operating system hidden files
+.DS_Store
+Thumbs.db
