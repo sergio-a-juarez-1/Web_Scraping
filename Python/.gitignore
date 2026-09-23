@@ -1,0 +1,27 @@
+# ==============================================================================
+# Git Tracking Exclusions - Crowdfunding Data Pipeline
+# ==============================================================================
+
+# --- Research Output Datasets ---
+# Block data files from accidentally leaking onto version control logs
+*.csv
+*.txt
+!requirements.txt
+
+# --- Python Operational Files ---
+# Python bytecode compilation artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments ---
+# Local execution sandboxes should never be checked into git
+.venv/
+venv/
+ENV/
+env/
+
+# --- Operating System Artifacts ---
+# Desktop configuration flags and hidden system properties
+.DS_Store
+Thumbs.db
